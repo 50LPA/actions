@@ -1,0 +1,36 @@
+name: Scrape Web Data and Sum Numbers
+
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+  # schedule:
+  #   - cron: '0 0 * * *' # Example: run daily at midnight UTC
+
+jobs:
+  scrape_data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9' # Or your preferred Python version
+
+    - name: Install dependencies
+      run: |
+        pip install playwright
+        playwright install chromium # Install the browser binaries
+
+    - name: Run Playwright script - 24f1002855@ds.study.iitm.ac.in
+      run: python scrape_and_sum.py
+      env:
+        # If your script needs any environment variables (e.g., for the actual base_url)
+        # you can define them here or use GitHub Secrets.
+        # EXAMPLE_BASE_URL: ${{ secrets.YOUR_BASE_URL_SECRET }}
+        # NOTE: Replace 'http://www.example.com/data_report/seed/{}' in scrape_and_sum.py
+        # with the actual base URL of the pages you need to scrape.
+        # The problem statement implies the URLs are structured like this, but doesn't give the domain.
+        # You'll need to update the `base_url` variable in `scrape_and_sum.py` with the correct domain.
+
